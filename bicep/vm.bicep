@@ -120,3 +120,9 @@ resource laExtension 'Microsoft.Compute/virtualMachines/extensions@2023-03-01' =
     }
   }
 }
+
+// Output indicating whether the Log Analytics extension was deployed, and the name of the extension resource
+output logAnalyticsExtensionStatus string = installLA ? 'Log Analytics agent extension deployed with resource name: ${laExtension.name}' : 'Log Analytics agent extension not deployed'
+
+// Optional: Also output the workspace ID for confirmation
+output logAnalyticsWorkspaceIdOutput string = installLA ? logAnalyticsWorkspaceId : 'No workspace ID provided'

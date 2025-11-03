@@ -7,11 +7,11 @@ targetScope = 'subscription'
 ])
 param resourceGroupType string
 param resourceGroupName string
-param resourceGroupLocation string = 'uaenorth'
+param location string = 'uaenorth'
 
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = if (resourceGroupType == 'new') {
   name: resourceGroupName
-  location: resourceGroupLocation
+  location: location
 }
 
 resource existingResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' existing = if (resourceGroupType == 'existing') {
