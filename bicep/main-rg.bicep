@@ -1,4 +1,3 @@
-// main-rg.bicep: resource-group-scope deployment for all resources
 param vmName string
 param adminUsername string
 @secure()
@@ -13,14 +12,12 @@ param imageSource string
 param tags object
 param logAnalyticsName string
 param patchMode string
-// param createLogAnalytics bool  // removed: Log Analytics module deleted
-
-// Log Analytics module removed — workspace creation/registration disabled
+param location string = resourceGroup().location
 
 module networkNew './modules/networkNew.bicep' = if (NetworkType == 'new') {
   name: 'networkNew'
   params: {
-    location: resourceGroup().location
+    location: location
     vnetName: vnetName
     subnetName: subnetName
     nsgName: nsgName
@@ -30,22 +27,25 @@ module networkNew './modules/networkNew.bicep' = if (NetworkType == 'new') {
 module networkCheck './modules/networkCheck.bicep' = if (NetworkType == 'existing') {
   name: 'networkCheck'
   params: {
+    location: location
     vnetName: vnetName
     subnetName: subnetName
     nsgName: nsgName
   }
 }
 
-var derivedSubnetId = resourceId('Microsoft.Network/virtualNetworks/subnets', vnetName, subnetName)
+// Use the subnet ID output from networkNew if creating new, else derive
+var subnetId = NetworkType == 'new' ? networkNew.outputs.subnetId : resourceId('Microsoft.Network/virtualNetworks/subnets', vnetName, subnetName)
 
 module vm './vm.bicep' = {
   name: 'vmDeploy'
+  dependsOn: (NetworkType == 'new') ? [networkNew] : []
   params: {
     vmName: vmName
-    location: resourceGroup().location
+    location: location
     adminUsername: adminUsername
     adminPassword: adminPassword
-    subnetId: derivedSubnetId
+    subnetId: subnetId
     authentication: authentication
     sshPublicKey: sshPublicKey
     imageSource: imageSource

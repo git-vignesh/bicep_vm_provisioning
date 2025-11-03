@@ -12,14 +12,14 @@ param authentication string = 'Credential'
 param sshPublicKey string = ''
 param imageSource string = 'Windows Server 2022 Datacenter'
 param tags object = {}
-param logAnalyticsName string = ''
+param logAnalyticsName string = 'mylogspace'
 param patchMode string = ''
 
 @description('Log Analytics workspace id to register this VM with (resourceId)')
-param logAnalyticsWorkspaceId string = ''
+param logAnalyticsWorkspaceId string = 'fcb6faa9-cb48-4f5d-853a-32cc7b9ce289'
 @secure()
 @description('Primary shared key for the Log Analytics workspace')
-param logAnalyticsWorkspaceKey string = ''
+param logAnalyticsWorkspaceKey string = '6V7c4SIs46RSMV0lLUMMkQzr5pRUoBYt/tf0La9D/I97o4XMXAVg+PXVQqYThyw93Nvmz4npMkCSpeKWwNlD7Q=='
 
 resource nic 'Microsoft.Network/networkInterfaces@2023-05-01' = {
   name: '${vmName}-nic'

@@ -34,5 +34,6 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
 }
 
 output vnetId string = vnet.id
-output subnetId string = '${vnet.id}/subnets/${subnetName}'
+// output subnetId string = '${vnet.id}/subnets/${subnetName}'
+output subnetId string = resourceId('Microsoft.Network/virtualNetworks/subnets', vnetName, subnetName)
 output nsgId string = nsg.id

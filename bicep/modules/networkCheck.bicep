@@ -2,6 +2,7 @@
 param vnetName string
 param subnetName string
 param nsgName string
+param location string
 
 // Reference existing resources. If they do not exist, properties will be null and the checks below will throw.
 resource existingVnet 'Microsoft.Network/virtualNetworks@2023-05-01' existing = {
