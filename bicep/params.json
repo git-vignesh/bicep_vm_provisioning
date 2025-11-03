@@ -1,0 +1,18 @@
+{
+  "resourceGroupType": { "value": "existing" },
+  "resourceGroupName": { "value": "pocRG" },
+  "resourceGroupLocation": { "value": "uaenorth" },
+  "vmName": { "value": "testvm02" },
+  "adminUsername": { "value": "azureuser" },
+  "adminPassword": { "value": "ChangeMePassword123!" },
+  "NetworkType": { "value": "new" },
+  "vnetName": { "value": "testvm02-vnet" },
+  "subnetName": { "value": "testvm02-subnet" },
+  "nsgName": { "value": "testvm02-nsg" },
+  "authentication": { "value": "Credential" },
+  "sshPublicKey": { "value": "" },
+  "imageSource": { "value": "Windows Server 2022 Datacenter" },
+  "tags": { "value": { "Project": "PoC", "Owner": "DevOpsTeam" } },
+  "logAnalyticsName": { "value": "mdtestanalytics" },
+  "patchMode": { "value": "Customer managed schedule" }
+}

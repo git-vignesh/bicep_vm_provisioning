@@ -1,0 +1,41 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  resourceGroupName: 'pocRG'
+  location: 'uaenorth'
+  adminPassword: '1.27cawjw2M9fLva@'  # Set your default password here
+
+parameters:
+- name: vmName
+  type: string  
+  displayName: 'Name'
+
+steps:
+- checkout: self
+
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- task: AzureResourceManagerTemplateDeployment@3
+  displayName: 'Deploy Bicep: VM modular'
+  inputs:
+    deploymentScope: 'ResourceGroup'
+    azureResourceManagerConnection: 'service_connection_devops_bicep'
+    subscriptionId: '67671f7f-c855-4c56-bb50-d4ecf5c4f30d'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: '$(resourceGroupName)'
+    location: '$(location)'
+    templateLocation: 'Linked artifact'
+    csmFile: '$(Build.SourcesDirectory)/bicep/main.bicep'
+    overrideParameters: >
+      -vmName ${{ parameters.vmName }} -adminPassword $(adminPassword)
+    deploymentMode: 'Incremental'
